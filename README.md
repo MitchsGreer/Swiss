@@ -30,14 +30,14 @@ The package can be installed several ways.
 Without the wheel in editable mode:
 
 ```
-#> git clone http://192.168.1.27:10880/CrowsClub/Swiss.git
+#> git clone https://github.com/MitchsGreer/swiss.git
 #> python3 -m pip install -e Swiss/
 ```
 
 After building the wheel:
 
 ```
-#> python3 -m pip install dist/swiss-1.0.0-py3-none-any.whl
+#> pipx install dist/swiss-1.0.0-py3-none-any.whl
 ```
 
 ## Usage
