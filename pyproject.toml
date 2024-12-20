@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "swiss"
+version = "1.0.0"
+description = "A command line swiss army knife."
+readme = "README.md"
+authors = [{ name = "Mitch Greer", email = "mitchsgreer@gmail.com" }]
+maintainers = [{ name = "Mitch Greer", email = "mitchsgreer@gmail.com" }]
+dependencies = [
+    "copier==9.1.1",
+    "black==24.2.0",
+    "isort==5.13.2",
+    "ruff==0.2.1",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/MitchsGreer/swiss"
+"Source" = "https://github.com/MitchsGreer/swiss.git"
+
+[project.scripts]
+swiss = "swiss:main"
