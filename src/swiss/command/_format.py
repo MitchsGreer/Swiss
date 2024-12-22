@@ -2,8 +2,9 @@
 
 import logging
 import subprocess
-import sys
 from argparse import ArgumentParser, Namespace, _SubParsersAction
+
+from swiss.util import find_command_path
 
 from ._base import BaseCommand
 
@@ -52,13 +53,13 @@ class FormatCommand(BaseCommand):
 
         _LOGGER.info("Formatting sources.")
         for source in args.source:
-            _LOGGER.info(f"\Formatting {source}.")
+            _LOGGER.info(f"\tFormatting {source}.")
             returncode += subprocess.run(
-                [sys.executable, "-m", "black", source]
+                [find_command_path("black"), source]
             ).returncode
 
             returncode += subprocess.run(
-                [sys.executable, "-m", "isort", source]
+                [find_command_path("isort"), source]
             ).returncode
         _LOGGER.info("Done formatting sources.")
 

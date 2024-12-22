@@ -1,31 +1,26 @@
-// For format details, see https://aka.ms/devcontainer.json. For config options, see the
-// README at: https://github.com/devcontainers/templates/tree/main/src/python
+// ============================================================================
+// Dev container configuration file.
+// ============================================================================
 {
-	"name": "Python 3.12",
-	"build": {
-        "dockerfile": "Dockerfile",
-        "context": "."
-    },
-	"features": {
-        "ghcr.io/devcontainers/features/python:1": {
-            "toolsToInstall": [
-                "flake8",
-                "black",
-                "pytest",
-                "ruff"
-            ]
-        }
-    },
-    "customizations": {
+	// Name of the container.
+	"name": "Python 3",
+
+	// The image to use for the container.
+	"image": "mcr.microsoft.com/devcontainers/python:1-3.12-bullseye",
+
+	// Configure tool-specific properties.
+	"customizations": {
 		"vscode": {
 			"extensions": [
+				"tamasfe.even-better-toml",
+				"njpwerner.autodocstring",
+				"streetsidesoftware.code-spell-checker",
+				"bierner.markdown-mermaid",
+				"esbenp.prettier-vscode",
+				"ms-python.vscode-pylance",
 				"ms-python.python",
-                "ms-python.vscode-pylance",
-				"editorconfig.editorconfig"
+				"ms-python.debugpy"
 			]
 		}
-	},
-    "mounts": [
-        "${localWorkspaceFolder}:/target/path/in/container/goes/here:cached"
-    ]
+	}
 }

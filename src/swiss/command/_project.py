@@ -11,7 +11,7 @@ logging.basicConfig()
 _LOGGER = logging.getLogger(__name__)
 _LOGGER.setLevel(logging.INFO)
 PROJECT_TEMPLATES = {
-    "python": "http://192.168.1.27:10880/CrowsClub/python_template.git"
+    "python": ""
 }
 
 
@@ -46,7 +46,8 @@ class ProjectCommand(BaseCommand):
         )
         clean_parser.add_argument(
             "type",
-            help=f"The project type. Choices: {list(PROJECT_TEMPLATES.keys())}.",
+            help=f"The project type. Choices: {
+                list(PROJECT_TEMPLATES.keys())}.",
             choices=list(PROJECT_TEMPLATES.keys()),
         )
         clean_parser.add_argument(

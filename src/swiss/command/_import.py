@@ -2,10 +2,9 @@
 
 import logging
 import subprocess
-import sys
 from argparse import ArgumentParser, Namespace, _SubParsersAction
 
-from swiss.util import in_venv
+from swiss.util import find_command_path, in_venv
 
 from ._base import BaseCommand
 
@@ -57,7 +56,7 @@ class ImportCommand(BaseCommand):
         for package in args.packages:
             _LOGGER.info(f"\tInstalling {package}.")
             returncode += subprocess.run(
-                [sys.executable, "-m", "pip", "install", package]
+                [find_command_path("pip"), "install", package]
             ).returncode
         _LOGGER.info("Done installing packages.")
 

@@ -2,8 +2,9 @@
 
 import logging
 import subprocess
-import sys
 from argparse import ArgumentParser, Namespace, _SubParsersAction
+
+from swiss.util import find_command_path
 
 from ._base import BaseCommand
 
@@ -52,10 +53,8 @@ class LintCommand(BaseCommand):
 
         _LOGGER.info("Linting sources.")
         for source in args.source:
-            _LOGGER.info(f"\Linting {source}.")
-            returncode += subprocess.run(
-                [sys.executable, "-m", "ruff", source]
-            ).returncode
+            _LOGGER.info(f"\tLinting {source}.")
+            returncode += subprocess.run([find_command_path("ruff"), source]).returncode
         _LOGGER.info("Done Linting sources.")
 
         return returncode == 0
