@@ -10,8 +10,15 @@ from ._base import BaseCommand
 logging.basicConfig()
 _LOGGER = logging.getLogger(__name__)
 _LOGGER.setLevel(logging.INFO)
-PROJECT_TEMPLATES = {
-    "python": ""
+
+_SRC_STRING = "src_path"
+_DST_STRING = "dst_path"
+_BRANCH_STRING = "vcs_ref"
+_PROJECT_TEMPLATES = {
+    "python": {
+        _SRC_STRING: "https://github.com/MitchsGreer/templates.git",
+        _BRANCH_STRING: "python3"
+    }
 }
 
 
@@ -47,8 +54,8 @@ class ProjectCommand(BaseCommand):
         clean_parser.add_argument(
             "type",
             help=f"The project type. Choices: {
-                list(PROJECT_TEMPLATES.keys())}.",
-            choices=list(PROJECT_TEMPLATES.keys()),
+                list(_PROJECT_TEMPLATES.keys())}.",
+            choices=list(_PROJECT_TEMPLATES.keys()),
         )
         clean_parser.add_argument(
             "destination", help="The destination directory for the new project."
@@ -64,6 +71,7 @@ class ProjectCommand(BaseCommand):
         Returns:
             True if the command runs successfully, False otherwise.
         """
-        copier.run_copy(PROJECT_TEMPLATES[args.type], args.destination)
+        _PROJECT_TEMPLATES[args.type][_DST_STRING] = args.destination
+        copier.run_copy(**_PROJECT_TEMPLATES[args.type])
 
         return True

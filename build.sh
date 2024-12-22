@@ -11,5 +11,6 @@ pyinstaller \
     --hidden-import black \
     --hidden-import isort \
     --hidden-import ruff \
+    --hidden-import jinja2_ansible_filters \
     --optimize 1 \
     src/swiss/__main__.py
