@@ -6,7 +6,7 @@ python3 -m pip install -e .
 
 pyinstaller \
     -F \
-    -n swiss-1.0.0 \
+    -n swiss-1.0.1 \
     --hidden-import copier \
     --hidden-import black \
     --hidden-import isort \

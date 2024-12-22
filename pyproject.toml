@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "swiss"
-version = "1.0.0"
+version = "1.0.1"
 description = "A command line swiss army knife."
 readme = "README.md"
 authors = [{ name = "Mitch Greer", email = "mitchsgreer@gmail.com" }]
