@@ -6,21 +6,23 @@ import sys
 from typing import List, Type
 
 from swiss.command import (BaseCommand, CloneCommand, DockerCommand,
-                           FormatCommand, ImportCommand,
+                           FormatCommand, HashCommand, ImportCommand,
                            InstallEditableCommand, LintCommand, ProjectCommand,
-                           RemoveCommand, SwingCommand)
+                           RemoveCommand, SpaceFindCommand, SwingCommand)
 from swiss.exceptions import CommandNotFoundError, NotInVenvError
 
 COMMANDS: List[Type[BaseCommand]] = [
-    DockerCommand,
-    SwingCommand,
-    ImportCommand,
-    RemoveCommand,
-    InstallEditableCommand,
-    FormatCommand,
-    ProjectCommand,
-    LintCommand,
     CloneCommand,
+    DockerCommand,
+    FormatCommand,
+    HashCommand,
+    ImportCommand,
+    InstallEditableCommand,
+    LintCommand,
+    ProjectCommand,
+    RemoveCommand,
+    SpaceFindCommand,
+    SwingCommand,
 ]
 COMMANDS.sort(key=lambda x: x().name)
 

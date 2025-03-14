@@ -17,7 +17,7 @@ _BRANCH_STRING = "vcs_ref"
 _PROJECT_TEMPLATES = {
     "python": {
         _SRC_STRING: "https://github.com/MitchsGreer/templates.git",
-        _BRANCH_STRING: "python3"
+        _BRANCH_STRING: "python3",
     }
 }
 
@@ -53,8 +53,7 @@ class ProjectCommand(BaseCommand):
         )
         clean_parser.add_argument(
             "type",
-            help=f"The project type. Choices: {
-                list(_PROJECT_TEMPLATES.keys())}.",
+            help=f"The project type. Choices: {list(_PROJECT_TEMPLATES.keys())}.",
             choices=list(_PROJECT_TEMPLATES.keys()),
         )
         clean_parser.add_argument(
