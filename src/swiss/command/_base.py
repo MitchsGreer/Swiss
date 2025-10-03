@@ -5,7 +5,6 @@ from abc import ABC, abstractmethod
 
 
 class BaseCommand(ABC):
-
     def __init__(self, name: str, description: str) -> None:
         """Constructor for the base command.
 

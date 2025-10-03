@@ -5,10 +5,20 @@ import logging
 import sys
 from typing import List, Type
 
-from swiss.command import (BaseCommand, CloneCommand, DockerCommand,
-                           FormatCommand, HashCommand, ImportCommand,
-                           InstallEditableCommand, LintCommand, ProjectCommand,
-                           RemoveCommand, SpaceFindCommand, SwingCommand)
+from swiss.command import (
+    BaseCommand,
+    CloneCommand,
+    DockerCommand,
+    FormatCommand,
+    HashCommand,
+    ImportCommand,
+    InstallEditableCommand,
+    LintCommand,
+    ProjectCommand,
+    RemoveCommand,
+    SpaceFindCommand,
+    SwingCommand,
+)
 from swiss.exceptions import CommandNotFoundError, NotInVenvError
 
 COMMANDS: List[Type[BaseCommand]] = [
