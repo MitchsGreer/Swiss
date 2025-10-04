@@ -24,16 +24,15 @@ This project depends on the python [uv](https://docs.astral.sh/uv/getting-starte
 
 ## Installation
 
-The tool can be installed after cloning it down using uv.
+The tool can be installed using uv.
 
 ```
-#> git clone https://github.com/MitchsGreer/Swiss.git
-#> uv tool install Swiss
+uv tool install https://github.com/MitchsGreer/Swiss.git
 ```
 
 To install the tool with additional python executables use:
 ```
-#> uv tool install Swiss --with-executables-from ruff,isort
+uv tool install https://github.com/MitchsGreer/Swiss.git --with-executables-from ruff,isort
 ```
 
 Python dependency executables can be installed with the above command, for others refer to their websites (they have been linked).
