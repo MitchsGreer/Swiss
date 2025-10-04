@@ -20,6 +20,7 @@ from swiss.command import (
     RemoveCommand,
     SpaceFindCommand,
     SwingCommand,
+    VersionCommand,
 )
 from swiss.exceptions import CommandNotFoundError, InvalidCommandInputError, NotInVenvError
 
@@ -35,6 +36,7 @@ COMMANDS: List[Type[BaseCommand]] = [
     RemoveCommand,
     SpaceFindCommand,
     SwingCommand,
+    VersionCommand,
 ]
 COMMANDS.sort(key=lambda x: x().name)
 

@@ -12,3 +12,4 @@ from ._project import ProjectCommand as ProjectCommand
 from ._remove import RemoveCommand as RemoveCommand
 from ._space_find import SpaceFindCommand as SpaceFindCommand
 from ._swing import SwingCommand as SwingCommand
+from ._version import VersionCommand as VersionCommand

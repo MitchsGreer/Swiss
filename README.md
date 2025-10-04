@@ -6,38 +6,23 @@ This repository holds a swiss army knife of useful tools.
 
 ## Dependencies
 
-This project depends on Docker or git to be installed for full functionality, but can be used without them.
-
-## Build
-
-The executable can be built with the build script.
-
-### Linux
-
-```
-#> python -m venv .venv
-#> . ./.venv/bin/activate
-(.venv) > bash build.sh
-```
-
-### Windows
-
-```
-#> python -m venv .venv
-#> .\.venv\Scripts\activate
-(.venv) > build.bat
-```
+This project depends on Docker and git to be installed for full functionality, but can be used without them.
 
 ## Installation
 
-The executable can be installed by adding to a directory that is in the PATH, adding the built directory to PATH, or downloading the release executable to PATH.
+This tool depends on `uv`. The tool can be installed after cloning it down.
+
+```
+#> git clone https://github.com/MitchsGreer/Swiss.git
+#> uv tool install Swiss
+```
 
 ## Usage
 
 After this script is installed it can be used to run a couple of useful commands.
 
 ```
->swiss --help
+#>swiss --help
 usage: Command line swiss army knife.
 
 positional arguments:
