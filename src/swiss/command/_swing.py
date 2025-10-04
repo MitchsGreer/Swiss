@@ -19,7 +19,7 @@ class SwingCommand(BaseCommand):
     """Class containing tarzan."""
 
     NAME = "swing"
-    DESCRIPTION = "Does a `git add .`, `git commit -m \" \"`, 'git push origin <BRANCH>'"
+    DESCRIPTION = "Does a 'git add .', 'git commit -m \" \"', 'git push origin <BRANCH>'."
 
     def __init__(self: "SwingCommand") -> None:
         """Constructor for DockerCommand."""

@@ -58,7 +58,7 @@ positional arguments:
     project             Run project commands for ease of use.
     remove              Remove the given python modules from the environment.
     space-find          Find the files with spaces in the given directory.
-    swing               Does a `git add .`, `git commit -m " "`, 'git push origin <BRANCH>'
+    swing               Does a 'git add .', 'git commit -m " "', 'git push origin <BRANCH>'.
     version             Display the version information for this tool.
 
 options:
