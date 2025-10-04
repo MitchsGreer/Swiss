@@ -1,5 +1,7 @@
 """Get the branch this git repository is on."""
 
+# ruff: noqa: S603
+
 import subprocess
 
 from ._find_command import find_command_path
@@ -13,7 +15,7 @@ def git_branch() -> str:
     """
     return (
         subprocess.run(
-            [find_command_path("git"), "rev-parse", "--abbrev-ref", "HEAD"],  # noqa: S603 # Not checking inputs as they are passed almost directly to the command.
+            [find_command_path("git"), "rev-parse", "--abbrev-ref", "HEAD"],
             capture_output=True,
         )
         .stdout.decode("UTF-8")
