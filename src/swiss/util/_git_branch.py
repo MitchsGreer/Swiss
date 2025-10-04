@@ -13,7 +13,7 @@ def git_branch() -> str:
     """
     return (
         subprocess.run(
-            [find_command_path("git"), "rev-parse", "--abbrev-ref", "HEAD"],
+            [find_command_path("git"), "rev-parse", "--abbrev-ref", "HEAD"],  # noqa: S603 # Not checking inputs as they are passed almost directly to the command.
             capture_output=True,
         )
         .stdout.decode("UTF-8")

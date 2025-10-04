@@ -13,6 +13,6 @@ def in_venv() -> bool:
     """
 
     if sys.prefix == sys.base_prefix:
-        raise NotInVenvError("Not in a virtual environment!")
+        raise NotInVenvError
 
     return True

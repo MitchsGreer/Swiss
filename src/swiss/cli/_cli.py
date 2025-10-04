@@ -1,6 +1,7 @@
 """The command line interface for this module."""
 
 from __future__ import annotations
+
 import argparse
 import logging
 import sys
@@ -20,7 +21,7 @@ from swiss.command import (
     SpaceFindCommand,
     SwingCommand,
 )
-from swiss.exceptions import CommandNotFoundError, NotInVenvError
+from swiss.exceptions import CommandNotFoundError, InvalidCommandInputError, NotInVenvError
 
 COMMANDS: List[Type[BaseCommand]] = [
     CloneCommand,
@@ -57,7 +58,6 @@ class CLI:
         """Parse and run the command.
 
         Returns:
-
             True if the command was successful, False otherwise.
         """
         success = False
@@ -68,11 +68,11 @@ class CLI:
         try:
             success = args.func(args)
         except NotInVenvError:
-            _LOGGER.error(
-                f"Could not run command [{command}] outside of a virtual environment."
-            )
+            _LOGGER.error(f"Could not run command [{command}] outside of a virtual environment.")
         except CommandNotFoundError as e:
-            _LOGGER.error(f"Could not find command [{e.args[0]}].")
+            _LOGGER.error(e)
+        except InvalidCommandInputError as e:
+            _LOGGER.error(e)
 
         if not success:
             _LOGGER.error(f"[{command}] failed to run.")

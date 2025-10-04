@@ -1,4 +1,4 @@
-name: Ruff
+name: Lint
 
 on: [push]
 
@@ -20,4 +20,4 @@ jobs:
         pip install ruff
     - name: Analysing the code with ruff
       run: |
-        ruff check $(git ls-files '*.py')
+        ruff check --select ERA,ANN,S,BLE,FBT,B,A,COM,C4,DTZ,T10,EM,FIX,FA,INT,ISC,ICN,LOG,INP,PIE,T20,PT,Q,RSE,RET,SLF,SIM,TID,TD,ARG,PTH,I,N,E,F,RUF $(git ls-files '*.py')

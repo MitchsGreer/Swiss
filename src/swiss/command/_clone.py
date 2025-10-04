@@ -19,18 +19,19 @@ class CloneCommand(BaseCommand):
     NAME = "clone"
     DESCRIPTION = "Clones down the given repository, if a directory is given, it checks out that branch."
 
-    def __init__(self) -> None:
+    def __init__(self: "CloneCommand") -> None:
         """Constructor for CloneCommand."""
         super().__init__(self.NAME, self.DESCRIPTION)
 
-    def add_to_parser(self, root_parser: _SubParsersAction) -> None:
+    def add_to_parser(self: "CloneCommand", root_parser: _SubParsersAction) -> None:
         """Add parser arguments and subparsers for this command.
 
         Args:
             root_parser: The root parser to add too.
         """
         swing_parser: ArgumentParser = root_parser.add_parser(
-            self.name, help=self.description
+            self.name,
+            help=self.description,
         )
         swing_parser.add_argument(
             "url",
@@ -45,7 +46,7 @@ class CloneCommand(BaseCommand):
         )
         swing_parser.set_defaults(func=self._handle_clone)
 
-    def _handle_clone(self, args: Namespace) -> bool:
+    def _handle_clone(self: "CloneCommand", args: Namespace) -> bool:
         """Handle the import sub command.
 
         Args:
@@ -54,20 +55,24 @@ class CloneCommand(BaseCommand):
         Returns:
             True if the command runs successfully, False otherwise.
         """
-        command = [find_command_path("git"), "clone", args.url]
+        git_command = find_command_path("git")
 
+        command = [git_command, "clone", args.url]
         if args.destination is not None:
-            _LOGGER.info(f"Cloning '{args.url}' into '{args.destination}'.")
+            # Make a directory with the last segment of the repo branch path.
+            # Ex: name/branch -> branch
+            dest = args.destination.split("/")[-1]
+            dest = dest.split("\\")[-1]
+
+            _LOGGER.info(f"Cloning '{args.url}' into '{dest}'.")
             command.append(args.destination)
 
-        returncode = subprocess.run(command).returncode
+        returncode = subprocess.run(command).returncode  # noqa: S603 # Not checking inputs as they are passed almost directly to the command.
         _LOGGER.info(f"Cloned '{args.url}'.")
 
         if returncode == 0 and args.destination is not None:
             _LOGGER.info(f"Switching to branch '{args.destination}'.")
-            returncode = subprocess.run(
-                [find_command_path("git"), "switch", args.destination]
-            ).returncode
+            returncode = subprocess.run([git_command, "switch", args.destination]).returncode  # noqa: S603 # Not checking inputs as they are passed almost directly to the command.
             _LOGGER.info(f"Switched to branch '{args.destination}'.")
 
         return returncode == 0

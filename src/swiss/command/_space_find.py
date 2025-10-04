@@ -18,22 +18,18 @@ class SpaceFindCommand(BaseCommand):
     NAME = "space-find"
     DESCRIPTION = "Find the files with spaces in the given directory."
 
-    def __init__(self) -> None:
+    def __init__(self: "SpaceFindCommand") -> None:
         """Constructor for SpaceFindCommand."""
         super().__init__(self.NAME, self.DESCRIPTION)
 
-    def add_to_parser(self, root_parser: _SubParsersAction) -> None:
+    def add_to_parser(self: "SpaceFindCommand", root_parser: _SubParsersAction) -> None:
         """Add parser arguments and subparsers for this command.
 
         Args:
             root_parser: The root parser to add too.
         """
-        space_find_parser: ArgumentParser = root_parser.add_parser(
-            self.name, help=self.description
-        )
-        space_find_parser.add_argument(
-            "dir", help="The directory to hash files of.", type=Path
-        )
+        space_find_parser: ArgumentParser = root_parser.add_parser(self.name, help=self.description)
+        space_find_parser.add_argument("dir", help="The directory to hash files of.", type=Path)
         space_find_parser.add_argument(
             "--rename",
             help="Flag to rename all files in this directory without spaces.",
@@ -49,7 +45,7 @@ class SpaceFindCommand(BaseCommand):
 
         space_find_parser.set_defaults(func=self._handle_hash)
 
-    def _handle_hash(self, args: Namespace) -> bool:
+    def _handle_hash(self: "SpaceFindCommand", args: Namespace) -> bool:
         """Find the files with spaces in the given directory.
 
         Args:
@@ -82,9 +78,7 @@ class SpaceFindCommand(BaseCommand):
             _LOGGER.info(f"{target.absolute()}")
 
             if args.rename:
-                ending_dir = Path(
-                    root, str(target).replace(str(root), "")[1:].replace(" ", "_")
-                )
+                ending_dir = Path(root, str(target).replace(str(root), "")[1:].replace(" ", "_"))
                 starting_dir = Path(ending_dir.parent, target.name)
 
                 _LOGGER.info(f"Renaming: {starting_dir} -> {ending_dir}")
@@ -98,9 +92,7 @@ class SpaceFindCommand(BaseCommand):
             _LOGGER.info(f"{target.absolute()}")
 
             if args.rename:
-                ending_file = Path(
-                    root, str(target).replace(str(root), "")[1:].replace(" ", "_")
-                )
+                ending_file = Path(root, str(target).replace(str(root), "")[1:].replace(" ", "_"))
                 starting_file = Path(ending_file.parent, target.name)
 
                 _LOGGER.info(f"Renaming: {starting_file} -> {ending_file}")

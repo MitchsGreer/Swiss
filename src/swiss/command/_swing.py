@@ -17,21 +17,19 @@ class SwingCommand(BaseCommand):
     """Class containing tarzan."""
 
     NAME = "swing"
-    DESCRIPTION = "Does a `git add .`, `git commit -m " "`, 'git push origin <BRANCH>'"
+    DESCRIPTION = "Does a `git add .`, `git commit -m \" \"`, 'git push origin <BRANCH>'"
 
-    def __init__(self) -> None:
+    def __init__(self: "SwingCommand") -> None:
         """Constructor for DockerCommand."""
         super().__init__(self.NAME, self.DESCRIPTION)
 
-    def add_to_parser(self, root_parser: _SubParsersAction) -> None:
+    def add_to_parser(self: "SwingCommand", root_parser: _SubParsersAction) -> None:
         """Add parser arguments and subparsers for this command.
 
         Args:
             root_parser: The root parser to add too.
         """
-        swing_parser: ArgumentParser = root_parser.add_parser(
-            self.name, help=self.description
-        )
+        swing_parser: ArgumentParser = root_parser.add_parser(self.name, help=self.description)
         swing_parser.add_argument(
             "message",
             metavar="MESSAGE",
@@ -40,7 +38,7 @@ class SwingCommand(BaseCommand):
         )
         swing_parser.set_defaults(func=self._handle_swing)
 
-    def _handle_swing(self, args: Namespace) -> bool:
+    def _handle_swing(self: "SwingCommand", args: Namespace) -> bool:
         """Handle the swing sub command.
 
         Args:
@@ -54,24 +52,20 @@ class SwingCommand(BaseCommand):
         _LOGGER.info("Swinging from tree to tree...")
         _LOGGER.info("\tAdding all files to stage.")
         returncode += subprocess.run(
-            [
+            [  # noqa: S603 # Not checking inputs as they are passed almost directly to the command.
                 find_command_path("git"),
                 "add",
                 ".",
-            ]
+            ],
         ).returncode
 
         if returncode == 0:
             _LOGGER.info("\tCommitting files with our message.")
-            returncode += subprocess.run(
-                [find_command_path("git"), "commit", "-m", " ".join(args.message)]
-            ).returncode
+            returncode += subprocess.run([find_command_path("git"), "commit", "-m", " ".join(args.message)]).returncode  # noqa: S603 # Not checking inputs as they are passed almost directly to the command.
 
         if returncode == 0:
             _LOGGER.info("\tPushing files up to the remote.")
-            returncode += subprocess.run(
-                [find_command_path("git"), "push", "origin", git_branch()]
-            ).returncode
+            returncode += subprocess.run([find_command_path("git"), "push", "origin", git_branch()]).returncode  # noqa: S603 # Not checking inputs as they are passed almost directly to the command.
 
         _LOGGER.info("Tarzan is off the tree.")
 

@@ -19,19 +19,17 @@ class FormatCommand(BaseCommand):
     NAME = "format"
     DESCRIPTION = "Format the given source directory."
 
-    def __init__(self) -> None:
+    def __init__(self: "FormatCommand") -> None:
         """Constructor for FormatCommand."""
         super().__init__(self.NAME, self.DESCRIPTION)
 
-    def add_to_parser(self, root_parser: _SubParsersAction) -> None:
+    def add_to_parser(self: "FormatCommand", root_parser: _SubParsersAction) -> None:
         """Add parser arguments and subparsers for this command.
 
         Args:
             root_parser: The root parser to add too.
         """
-        swing_parser: ArgumentParser = root_parser.add_parser(
-            self.name, help=self.description
-        )
+        swing_parser: ArgumentParser = root_parser.add_parser(self.name, help=self.description)
         swing_parser.add_argument(
             "source",
             metavar="SOURCE",
@@ -40,7 +38,7 @@ class FormatCommand(BaseCommand):
         )
         swing_parser.set_defaults(func=self._handle_format)
 
-    def _handle_format(self, args: Namespace) -> bool:
+    def _handle_format(self: "FormatCommand", args: Namespace) -> bool:
         """Handle the format sub command.
 
         Args:
@@ -54,13 +52,8 @@ class FormatCommand(BaseCommand):
         _LOGGER.info("Formatting sources.")
         for source in args.source:
             _LOGGER.info(f"\tFormatting {source}.")
-            returncode += subprocess.run(
-                [find_command_path("black"), source]
-            ).returncode
-
-            returncode += subprocess.run(
-                [find_command_path("isort"), source]
-            ).returncode
+            returncode += subprocess.run([find_command_path("isort"), source]).returncode  # noqa: S603 # Not checking inputs as they are passed almost directly to the command.
+            returncode += subprocess.run([find_command_path("ruff"), "format", source]).returncode  # noqa: S603 # Not checking inputs as they are passed almost directly to the command.
         _LOGGER.info("Done formatting sources.")
 
         return returncode == 0

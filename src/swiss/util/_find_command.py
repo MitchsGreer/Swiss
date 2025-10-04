@@ -20,8 +20,6 @@ def find_command_path(command: str) -> str:
     command_path = shutil.which(command)
 
     if command_path is None:
-        raise CommandNotFoundError(
-            f"Could not find command {command}, is it installed on the system?", command
-        )
+        raise CommandNotFoundError("Could not find command [%s], is it installed on the system?" % (command))
 
     return command_path

@@ -19,22 +19,18 @@ class HashCommand(BaseCommand):
     NAME = "hash"
     DESCRIPTION = "Hash the files in the given directory."
 
-    def __init__(self) -> None:
+    def __init__(self: "HashCommand") -> None:
         """Constructor for HashCommand."""
         super().__init__(self.NAME, self.DESCRIPTION)
 
-    def add_to_parser(self, root_parser: _SubParsersAction) -> None:
+    def add_to_parser(self: "HashCommand", root_parser: _SubParsersAction) -> None:
         """Add parser arguments and subparsers for this command.
 
         Args:
             root_parser: The root parser to add too.
         """
-        hash_parser: ArgumentParser = root_parser.add_parser(
-            self.name, help=self.description
-        )
-        hash_parser.add_argument(
-            "dir", help="The directory to hash files of.", type=Path
-        )
+        hash_parser: ArgumentParser = root_parser.add_parser(self.name, help=self.description)
+        hash_parser.add_argument("dir", help="The directory to hash files of.", type=Path)
         hash_parser.add_argument(
             "--rename",
             help="Flag to rename all files in this directory with their hashes.",
@@ -50,7 +46,7 @@ class HashCommand(BaseCommand):
 
         hash_parser.set_defaults(func=self._handle_hash)
 
-    def _handle_hash(self, args: Namespace) -> bool:
+    def _handle_hash(self: "HashCommand", args: Namespace) -> bool:
         """Hash all the files in the given directory.
 
         Args:
@@ -65,27 +61,19 @@ class HashCommand(BaseCommand):
         if args.recurse:
             glob_pattern = "**/*"
 
-        target_files = [
-            globbed_file
-            for globbed_file in Path(args.dir).glob(glob_pattern)
-            if globbed_file.is_file()
-        ]
+        target_files = [globbed_file for globbed_file in Path(args.dir).glob(glob_pattern) if globbed_file.is_file()]
         for target in target_files:
-            digest = hashlib.md5(target.read_bytes()).hexdigest()
+            digest = hashlib.md5(target.read_bytes()).hexdigest()  # noqa: S324 # Use of MD5 for hashing files for naming.
 
             _LOGGER.info(f"{target.absolute()}: {digest}")
 
             if args.rename:
                 try:
-                    _LOGGER.info(
-                        f"Renaming: {target} -> {target.with_name(digest).with_suffix(target.suffix)}"
-                    )
-                    shutil.move(
-                        target, target.with_name(digest).with_suffix(target.suffix)
-                    )
+                    _LOGGER.info(f"Renaming: {target} -> {target.with_name(digest).with_suffix(target.suffix)}")
+                    shutil.move(target, target.with_name(digest).with_suffix(target.suffix))
                 except PermissionError:
                     _LOGGER.error(
-                        f"Could not rename: {target} -> {target.with_name(digest).with_suffix(target.suffix)}"
+                        f"Could not rename: {target} -> {target.with_name(digest).with_suffix(target.suffix)}",
                     )
                     success = False
 

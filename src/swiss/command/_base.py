@@ -5,7 +5,7 @@ from abc import ABC, abstractmethod
 
 
 class BaseCommand(ABC):
-    def __init__(self, name: str, description: str) -> None:
+    def __init__(self: "BaseCommand", name: str = "", description: str = "") -> None:
         """Constructor for the base command.
 
         Args:
@@ -16,7 +16,7 @@ class BaseCommand(ABC):
         self.description = description
 
     @abstractmethod
-    def add_to_parser(self, root_parser: argparse._SubParsersAction) -> None:
+    def add_to_parser(self: "BaseCommand", root_parser: argparse._SubParsersAction) -> None:
         """Add parser arguments and subparsers for this command.
 
         Args:
