@@ -4,6 +4,6 @@ from swiss.cli import CLI
 
 
 def main() -> None:
-    """Main entry point."""
+    """Run the main applications."""
     cli = CLI()
     cli.run()

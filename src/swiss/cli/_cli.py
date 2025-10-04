@@ -1,5 +1,6 @@
 """The command line interface for this module."""
 
+from __future__ import annotations
 import argparse
 import logging
 import sys
@@ -44,18 +45,19 @@ _LOGGER.setLevel(logging.INFO)
 class CLI:
     """Command line interface."""
 
-    def __init__(self) -> None:
-        """Constructor for CLI."""
+    def __init__(self: "CLI") -> None:
+        """Construct a CLI object."""
         self.parser = argparse.ArgumentParser("swiss", "Command line swiss army knife.")
         subparsers = self.parser.add_subparsers(required=True)
 
         for command in COMMANDS:
             command().add_to_parser(subparsers)
 
-    def run(self) -> bool:
+    def run(self: "CLI") -> bool:
         """Parse and run the command.
 
         Returns:
+
             True if the command was successful, False otherwise.
         """
         success = False
