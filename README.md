@@ -1,3 +1,5 @@
+[![Format](https://github.com/MitchsGreer/Swiss/actions/workflows/format.yaml/badge.svg)](https://github.com/MitchsGreer/Swiss/actions/workflows/format.yaml)[![Lint](https://github.com/MitchsGreer/Swiss/actions/workflows/lint.yaml/badge.svg)](https://github.com/MitchsGreer/Swiss/actions/workflows/lint.yaml)
+
 # Swiss
 
 This repository holds a swiss army knife of useful tools.
