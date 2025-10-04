@@ -16,7 +16,7 @@ This project depends on the python [uv](https://docs.astral.sh/uv/getting-starte
 | hash | None |
 | ie | None |
 | import | None |
-| lint | ruff |
+| lint | `ruff` (python) |
 | project | None |
 | remove | None |
 | space-find | None |
