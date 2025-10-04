@@ -38,20 +38,17 @@ class ProjectCommand(BaseCommand):
         Args:
             root_parser: The root parser to add too.
         """
-        docker_parser: ArgumentParser = root_parser.add_parser(self.name, help=self.description)
-        docker_subparsers = docker_parser.add_subparsers(help="Project sub commands.", required=True)
+        project_parser: ArgumentParser = root_parser.add_parser(self.name, help=self.description)
+        project_subparsers = project_parser.add_subparsers(help="Project sub commands.", required=True)
 
-        # ---------------------------------------------------------------------
-        # Create a project from a project template.
-        # ---------------------------------------------------------------------
-        clean_parser = docker_subparsers.add_parser("create", help="Create a project from a project template.")
-        clean_parser.add_argument(
+        create_parser = project_subparsers.add_parser("create", help="Create a project from a project template.")
+        create_parser.add_argument(
             "type",
             help=f"The project type. Choices: {list(_PROJECT_TEMPLATES.keys())}.",
             choices=list(_PROJECT_TEMPLATES.keys()),
         )
-        clean_parser.add_argument("destination", help="The destination directory for the new project.")
-        clean_parser.set_defaults(func=self._handle_create)
+        create_parser.add_argument("destination", help="The destination directory for the new project.")
+        create_parser.set_defaults(func=self._handle_create)
 
     def _handle_create(self: "ProjectCommand", args: Namespace) -> bool:
         """Handle the create sub command.

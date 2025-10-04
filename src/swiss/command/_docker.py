@@ -1,5 +1,7 @@
 """Run docker commands for ease of use."""
 
+# ruff: noqa: S603
+
 import logging
 import subprocess
 from argparse import ArgumentParser, Namespace, _SubParsersAction
@@ -83,8 +85,8 @@ class DockerCommand(BaseCommand):
         # ---------------------------------------------------------------------
         # Stop all docker containers.
         # ---------------------------------------------------------------------
-        clean_parser = docker_subparsers.add_parser("stop", help="Stop all docker containers.")
-        clean_parser.set_defaults(func=self._handle_stop)
+        stop_parser = docker_subparsers.add_parser("stop", help="Stop all docker containers.")
+        stop_parser.set_defaults(func=self._handle_stop)
 
     def _handle_clean(self: "DockerCommand", args: Namespace) -> bool:
         """Handle the clean sub command.
@@ -103,22 +105,22 @@ class DockerCommand(BaseCommand):
 
         if success and (args.containers or args.all):
             _LOGGER.info("Pruning containers...")
-            returncode += subprocess.run([find_command_path("docker"), "container", "prune", "-f"]).returncode  # noqa: S603 # Not checking inputs as they are passed almost directly to the command.
+            returncode += subprocess.run([find_command_path("docker"), "container", "prune", "-f"]).returncode
             _LOGGER.info("Containers pruned.")
 
         if success and (args.images or args.all):
             _LOGGER.info("Pruning images...")
-            returncode += subprocess.run([find_command_path("docker"), "image", "prune", "-a", "-f"]).returncode  # noqa: S603 # Not checking inputs as they are passed almost directly to the command.
+            returncode += subprocess.run([find_command_path("docker"), "image", "prune", "-a", "-f"]).returncode
             _LOGGER.info("Images pruned.")
 
         if success and (args.volumes or args.all):
             _LOGGER.info("Pruning volumes...")
-            returncode = subprocess.run([find_command_path("docker"), "volume", "prune", "-a", "-f"]).returncode  # noqa: S603 # Not checking inputs as they are passed almost directly to the command.
+            returncode = subprocess.run([find_command_path("docker"), "volume", "prune", "-a", "-f"]).returncode
             _LOGGER.info("Volumes pruned.")
 
         if success and (args.networks or args.all):
             _LOGGER.info("Pruning networks...")
-            returncode += subprocess.run([find_command_path("docker"), "network", "prune", "-f"]).returncode  # noqa: S603 # Not checking inputs as they are passed almost directly to the command.
+            returncode += subprocess.run([find_command_path("docker"), "network", "prune", "-f"]).returncode
             _LOGGER.info("Networks pruned.")
 
         return success and returncode == 0
@@ -135,7 +137,7 @@ class DockerCommand(BaseCommand):
         _LOGGER.info("Stopping all docker containers...")
 
         success = False
-        process = subprocess.run([find_command_path("docker"), "container", "ls", "-q"], capture_output=True)  # noqa: S603 # Not checking inputs as they are passed almost directly to the command.
+        process = subprocess.run([find_command_path("docker"), "container", "ls", "-q"], capture_output=True)
         success = process.returncode == 0
 
         if success:
@@ -150,7 +152,7 @@ class DockerCommand(BaseCommand):
                     "stop",
                 ]
                 command.extend(container_ids)
-                process = subprocess.run(command)  # noqa: S603 # Not checking inputs as they are passed almost directly to the command.
+                process = subprocess.run(command)
                 success = process.returncode == 0
 
         _LOGGER.info("Stopped docker containers.")

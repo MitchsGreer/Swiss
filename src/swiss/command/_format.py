@@ -1,5 +1,7 @@
 """Format the given source directory."""
 
+# ruff: noqa: S603
+
 import logging
 import subprocess
 from argparse import ArgumentParser, Namespace, _SubParsersAction
@@ -29,14 +31,14 @@ class FormatCommand(BaseCommand):
         Args:
             root_parser: The root parser to add too.
         """
-        swing_parser: ArgumentParser = root_parser.add_parser(self.name, help=self.description)
-        swing_parser.add_argument(
+        parser: ArgumentParser = root_parser.add_parser(self.name, help=self.description)
+        parser.add_argument(
             "source",
             metavar="SOURCE",
             help="The source directories to format.",
             nargs="+",
         )
-        swing_parser.set_defaults(func=self._handle_format)
+        parser.set_defaults(func=self._handle_format)
 
     def _handle_format(self: "FormatCommand", args: Namespace) -> bool:
         """Handle the format sub command.
@@ -52,8 +54,8 @@ class FormatCommand(BaseCommand):
         _LOGGER.info("Formatting sources.")
         for source in args.source:
             _LOGGER.info(f"\tFormatting {source}.")
-            returncode += subprocess.run([find_command_path("isort"), source]).returncode  # noqa: S603 # Not checking inputs as they are passed almost directly to the command.
-            returncode += subprocess.run([find_command_path("ruff"), "format", source]).returncode  # noqa: S603 # Not checking inputs as they are passed almost directly to the command.
+            returncode += subprocess.run([find_command_path("isort"), source]).returncode
+            returncode += subprocess.run([find_command_path("ruff"), "format", source]).returncode
         _LOGGER.info("Done formatting sources.")
 
         return returncode == 0

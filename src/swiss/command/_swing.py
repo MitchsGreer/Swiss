@@ -1,5 +1,7 @@
 """Swiss swing, does a `git add .`, `git commit -m ""`, 'git push origin <BRANCH>'."""
 
+# ruff: noqa: S603
+
 import logging
 import subprocess
 from argparse import ArgumentParser, Namespace, _SubParsersAction
@@ -29,14 +31,14 @@ class SwingCommand(BaseCommand):
         Args:
             root_parser: The root parser to add too.
         """
-        swing_parser: ArgumentParser = root_parser.add_parser(self.name, help=self.description)
-        swing_parser.add_argument(
+        parser: ArgumentParser = root_parser.add_parser(self.name, help=self.description)
+        parser.add_argument(
             "message",
             metavar="MESSAGE",
             help="The commit message to use when swinging in the format: swiss swing this is the commit message.",
             nargs="+",
         )
-        swing_parser.set_defaults(func=self._handle_swing)
+        parser.set_defaults(func=self._handle_swing)
 
     def _handle_swing(self: "SwingCommand", args: Namespace) -> bool:
         """Handle the swing sub command.
@@ -52,7 +54,7 @@ class SwingCommand(BaseCommand):
         _LOGGER.info("Swinging from tree to tree...")
         _LOGGER.info("\tAdding all files to stage.")
         returncode += subprocess.run(
-            [  # noqa: S603 # Not checking inputs as they are passed almost directly to the command.
+            [
                 find_command_path("git"),
                 "add",
                 ".",
@@ -61,11 +63,11 @@ class SwingCommand(BaseCommand):
 
         if returncode == 0:
             _LOGGER.info("\tCommitting files with our message.")
-            returncode += subprocess.run([find_command_path("git"), "commit", "-m", " ".join(args.message)]).returncode  # noqa: S603 # Not checking inputs as they are passed almost directly to the command.
+            returncode += subprocess.run([find_command_path("git"), "commit", "-m", " ".join(args.message)]).returncode
 
         if returncode == 0:
             _LOGGER.info("\tPushing files up to the remote.")
-            returncode += subprocess.run([find_command_path("git"), "push", "origin", git_branch()]).returncode  # noqa: S603 # Not checking inputs as they are passed almost directly to the command.
+            returncode += subprocess.run([find_command_path("git"), "push", "origin", git_branch()]).returncode
 
         _LOGGER.info("Tarzan is off the tree.")
 

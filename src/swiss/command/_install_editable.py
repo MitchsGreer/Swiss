@@ -1,5 +1,7 @@
 """Command to install the given packages as editable."""
 
+# ruff: noqa: S603
+
 import logging
 import subprocess
 from argparse import ArgumentParser, Namespace, _SubParsersAction
@@ -31,14 +33,14 @@ class InstallEditableCommand(BaseCommand):
         Args:
             root_parser: The root parser to add too.
         """
-        swing_parser: ArgumentParser = root_parser.add_parser(self.name, help=self.description)
-        swing_parser.add_argument(
+        parser: ArgumentParser = root_parser.add_parser(self.name, help=self.description)
+        parser.add_argument(
             "packages",
             metavar="PACKAGES",
             help="The python packages to install.",
             nargs="+",
         )
-        swing_parser.set_defaults(func=self._handle_install_editable)
+        parser.set_defaults(func=self._handle_install_editable)
 
     def _handle_install_editable(self: "InstallEditableCommand", args: Namespace) -> bool:
         """Handle the import sub command.
@@ -55,7 +57,7 @@ class InstallEditableCommand(BaseCommand):
         _LOGGER.info("Installing packages into virtual environment.")
         for package in args.packages:
             _LOGGER.info(f"\tInstalling {package} as editable.")
-            returncode += subprocess.run([find_command_path("pip"), "install", "-e", package]).returncode  # noqa: S603 # Not checking inputs as they are passed almost directly to the command.
+            returncode += subprocess.run([find_command_path("pip"), "install", "-e", package]).returncode
         _LOGGER.info("Done installing packages.")
 
         return returncode == 0

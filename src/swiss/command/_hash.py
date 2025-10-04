@@ -29,22 +29,21 @@ class HashCommand(BaseCommand):
         Args:
             root_parser: The root parser to add too.
         """
-        hash_parser: ArgumentParser = root_parser.add_parser(self.name, help=self.description)
-        hash_parser.add_argument("dir", help="The directory to hash files of.", type=Path)
-        hash_parser.add_argument(
+        parser: ArgumentParser = root_parser.add_parser(self.name, help=self.description)
+        parser.add_argument("dir", help="The directory to hash files of.", type=Path)
+        parser.add_argument(
             "--rename",
             help="Flag to rename all files in this directory with their hashes.",
             action="store_true",
             default=False,
         )
-        hash_parser.add_argument(
+        parser.add_argument(
             "--recurse",
             help="Recursively move through directories.",
             action="store_true",
             default=False,
         )
-
-        hash_parser.set_defaults(func=self._handle_hash)
+        parser.set_defaults(func=self._handle_hash)
 
     def _handle_hash(self: "HashCommand", args: Namespace) -> bool:
         """Hash all the files in the given directory.

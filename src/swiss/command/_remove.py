@@ -1,5 +1,7 @@
 """Remove the given python modules from the environment."""
 
+# ruff: noqa: S603
+
 import logging
 import subprocess
 from argparse import ArgumentParser, Namespace, _SubParsersAction
@@ -29,14 +31,14 @@ class RemoveCommand(BaseCommand):
         Args:
             root_parser: The root parser to add too.
         """
-        swing_parser: ArgumentParser = root_parser.add_parser(self.name, help=self.description)
-        swing_parser.add_argument(
+        parser: ArgumentParser = root_parser.add_parser(self.name, help=self.description)
+        parser.add_argument(
             "packages",
             metavar="PACKAGES",
             help="The python packages to remove.",
             nargs="+",
         )
-        swing_parser.set_defaults(func=self._handle_remove)
+        parser.set_defaults(func=self._handle_remove)
 
     def _handle_remove(self: "RemoveCommand", args: Namespace) -> bool:
         """Handle the remove sub command.
@@ -53,7 +55,7 @@ class RemoveCommand(BaseCommand):
         _LOGGER.info("Removing packages from virtual environment.")
         for package in args.packages:
             _LOGGER.info(f"\tRemoving {package}.")
-            returncode += subprocess.run([find_command_path("pip"), "uninstall", "-y", package]).returncode  # noqa: S603 # Not checking inputs as they are passed almost directly to the command.
+            returncode += subprocess.run([find_command_path("pip"), "uninstall", "-y", package]).returncode
         _LOGGER.info("Done removing packages.")
 
         return returncode == 0

@@ -1,5 +1,7 @@
 """Clones down the given repository, if a directory is given, it checks out that branch."""
 
+# ruff: noqa: S603
+
 import logging
 import subprocess
 from argparse import ArgumentParser, Namespace, _SubParsersAction
@@ -29,22 +31,22 @@ class CloneCommand(BaseCommand):
         Args:
             root_parser: The root parser to add too.
         """
-        swing_parser: ArgumentParser = root_parser.add_parser(
+        parser: ArgumentParser = root_parser.add_parser(
             self.name,
             help=self.description,
         )
-        swing_parser.add_argument(
+        parser.add_argument(
             "url",
             metavar="URL",
             help="The URL for the git repository to clone.",
         )
-        swing_parser.add_argument(
+        parser.add_argument(
             "--destination",
             "-d",
             metavar="DESTINATION",
             help="The destination directory and branch to checkout in the git repository.",
         )
-        swing_parser.set_defaults(func=self._handle_clone)
+        parser.set_defaults(func=self._handle_clone)
 
     def _handle_clone(self: "CloneCommand", args: Namespace) -> bool:
         """Handle the import sub command.
@@ -67,12 +69,12 @@ class CloneCommand(BaseCommand):
             _LOGGER.info(f"Cloning '{args.url}' into '{dest}'.")
             command.append(args.destination)
 
-        returncode = subprocess.run(command).returncode  # noqa: S603 # Not checking inputs as they are passed almost directly to the command.
+        returncode = subprocess.run(command).returncode
         _LOGGER.info(f"Cloned '{args.url}'.")
 
         if returncode == 0 and args.destination is not None:
             _LOGGER.info(f"Switching to branch '{args.destination}'.")
-            returncode = subprocess.run([git_command, "switch", args.destination]).returncode  # noqa: S603 # Not checking inputs as they are passed almost directly to the command.
+            returncode = subprocess.run([git_command, "switch", args.destination]).returncode
             _LOGGER.info(f"Switched to branch '{args.destination}'.")
 
         return returncode == 0

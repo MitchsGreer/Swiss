@@ -1,5 +1,7 @@
 """Lint the given source directories."""
 
+# ruff: noqa: S603
+
 import logging
 import subprocess
 from argparse import ArgumentParser, Namespace, _SubParsersAction
@@ -29,14 +31,14 @@ class LintCommand(BaseCommand):
         Args:
             root_parser: The root parser to add too.
         """
-        swing_parser: ArgumentParser = root_parser.add_parser(self.name, help=self.description)
-        swing_parser.add_argument(
+        parser: ArgumentParser = root_parser.add_parser(self.name, help=self.description)
+        parser.add_argument(
             "source",
             metavar="SOURCE",
             help="The python sources to lint.",
             nargs="+",
         )
-        swing_parser.set_defaults(func=self._handle_lint)
+        parser.set_defaults(func=self._handle_lint)
 
     def _handle_lint(self: "LintCommand", args: Namespace) -> bool:
         """Handle the lint sub command.
@@ -53,7 +55,7 @@ class LintCommand(BaseCommand):
         for source in args.source:
             _LOGGER.info(f"\tLinting {source}.")
             returncode += subprocess.run(
-                [  # noqa: S603 # Not checking inputs as they are passed almost directly to the command.
+                [
                     find_command_path("ruff"),
                     "check",
                     "--select",

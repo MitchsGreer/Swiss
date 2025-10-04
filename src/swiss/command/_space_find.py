@@ -28,22 +28,21 @@ class SpaceFindCommand(BaseCommand):
         Args:
             root_parser: The root parser to add too.
         """
-        space_find_parser: ArgumentParser = root_parser.add_parser(self.name, help=self.description)
-        space_find_parser.add_argument("dir", help="The directory to hash files of.", type=Path)
-        space_find_parser.add_argument(
+        parser: ArgumentParser = root_parser.add_parser(self.name, help=self.description)
+        parser.add_argument("dir", help="The directory to hash files of.", type=Path)
+        parser.add_argument(
             "--rename",
             help="Flag to rename all files in this directory without spaces.",
             action="store_true",
             default=False,
         )
-        space_find_parser.add_argument(
+        parser.add_argument(
             "--recurse",
             help="Recursively move through directories.",
             action="store_true",
             default=False,
         )
-
-        space_find_parser.set_defaults(func=self._handle_hash)
+        parser.set_defaults(func=self._handle_hash)
 
     def _handle_hash(self: "SpaceFindCommand", args: Namespace) -> bool:
         """Find the files with spaces in the given directory.
