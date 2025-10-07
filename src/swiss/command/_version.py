@@ -39,6 +39,6 @@ class VersionCommand(BaseCommand):
         Returns:
             True if the command runs successfully, False otherwise.
         """
-        _LOGGER.info(f"Swiss version: {version("swiss")}")
+        _LOGGER.info(f"Swiss version: {version('swiss')}")
 
         return True
