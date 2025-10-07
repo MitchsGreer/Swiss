@@ -66,15 +66,15 @@ class CloneCommand(BaseCommand):
             dest = args.destination.split("/")[-1]
             dest = dest.split("\\")[-1]
 
-            _LOGGER.info(f"Cloning '{args.url}' into '{dest}'.")
-            command.append(args.destination)
+            _LOGGER.info(f"Cloning '{args.url}' into './{dest}'.")
+            command.append(f"./{dest}")
 
         returncode = subprocess.run(command).returncode
         _LOGGER.info(f"Cloned '{args.url}'.")
 
         if returncode == 0 and args.destination is not None:
             _LOGGER.info(f"Switching to branch '{args.destination}'.")
-            returncode = subprocess.run([git_command, "switch", args.destination]).returncode
+            returncode = subprocess.run([git_command, "switch"], cwd=f"./{dest}").returncode
             _LOGGER.info(f"Switched to branch '{args.destination}'.")
 
         return returncode == 0
