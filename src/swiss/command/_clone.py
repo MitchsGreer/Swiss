@@ -5,6 +5,7 @@
 import logging
 import subprocess
 from argparse import ArgumentParser, Namespace, _SubParsersAction
+from pathlib import Path
 
 from swiss.util import find_command_path
 
@@ -60,22 +61,30 @@ class CloneCommand(BaseCommand):
         git_command = find_command_path("git")
 
         command = [git_command, "clone", args.url]
-        
+
         # Make a directory with the last segment of the repo branch path.
         # Ex: name/branch -> branch
         dest = args.destination.split("/")[-1]
         dest = dest.split("\\")[-1]
-        
+
         if args.destination is not None:
             _LOGGER.info(f"Cloning '{args.url}' into './{dest}'.")
             command.append(f"./{dest}")
 
         returncode = subprocess.run(command).returncode
-        _LOGGER.info(f"Cloned '{args.url}'.")
+
+        if returncode == 0:
+            _LOGGER.info(f"Cloned '{args.url}'.")
+        else:
+            _LOGGER.error(f"Could not clone '{args.url}'.")
 
         if returncode == 0 and args.destination is not None:
             _LOGGER.info(f"Switching to branch '{args.destination}'.")
-            returncode = subprocess.run([git_command, "switch", args.destination], cwd=f"./{dest}").returncode
-            _LOGGER.info(f"Switched to branch '{args.destination}'.")
+            returncode = subprocess.run([git_command, "switch", args.destination], cwd=Path(dest).resolve()).returncode
+
+            if returncode == 0:
+                _LOGGER.info(f"Switched to branch '{args.destination}'.")
+            else:
+                _LOGGER.error(f"Could not switch to branch '{args.destination}'.")
 
         return returncode == 0
