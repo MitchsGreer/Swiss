@@ -74,7 +74,7 @@ class CloneCommand(BaseCommand):
 
         if returncode == 0 and args.destination is not None:
             _LOGGER.info(f"Switching to branch '{args.destination}'.")
-            returncode = subprocess.run([git_command, "switch", dest], cwd=f"./{dest}").returncode
+            returncode = subprocess.run([git_command, "switch", args.destination], cwd=f"./{dest}").returncode
             _LOGGER.info(f"Switched to branch '{args.destination}'.")
 
         return returncode == 0
