@@ -60,12 +60,13 @@ class CloneCommand(BaseCommand):
         git_command = find_command_path("git")
 
         command = [git_command, "clone", args.url]
+        
+        # Make a directory with the last segment of the repo branch path.
+        # Ex: name/branch -> branch
+        dest = args.destination.split("/")[-1]
+        dest = dest.split("\\")[-1]
+        
         if args.destination is not None:
-            # Make a directory with the last segment of the repo branch path.
-            # Ex: name/branch -> branch
-            dest = args.destination.split("/")[-1]
-            dest = dest.split("\\")[-1]
-
             _LOGGER.info(f"Cloning '{args.url}' into './{dest}'.")
             command.append(f"./{dest}")
 
