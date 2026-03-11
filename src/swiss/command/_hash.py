@@ -48,7 +48,7 @@ class HashCommand(BaseCommand):
             help="Sets the block size to hash files with. Defaults to 1024.",
             choices=[1024, 2048],
             default=1024,
-            type=int
+            type=int,
         )
         parser.set_defaults(func=self._handle_hash)
 
