@@ -70,7 +70,7 @@ class HashCommand(BaseCommand):
         target_files = [globbed_file for globbed_file in Path(args.dir).glob(glob_pattern) if globbed_file.is_file()]
         for target in target_files:
 
-            with open(target, "rb") as fd:
+            with Path.open(target, "rb") as fd:
                 data = fd.read(args.block_size)
                 hash_data = hashlib.sha3_512()
                 while data:
