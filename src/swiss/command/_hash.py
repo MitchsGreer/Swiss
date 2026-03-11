@@ -43,6 +43,13 @@ class HashCommand(BaseCommand):
             action="store_true",
             default=False,
         )
+        parser.add_argument(
+            "--block-size",
+            help="Sets the block size to hash files with. Defaults to 1024.",
+            choices=[1024, 2048],
+            default=1024,
+            type=int
+        )
         parser.set_defaults(func=self._handle_hash)
 
     def _handle_hash(self: "HashCommand", args: Namespace) -> bool:
@@ -62,7 +69,14 @@ class HashCommand(BaseCommand):
 
         target_files = [globbed_file for globbed_file in Path(args.dir).glob(glob_pattern) if globbed_file.is_file()]
         for target in target_files:
-            digest = hashlib.md5(target.read_bytes()).hexdigest()  # noqa: S324 # Use of MD5 for hashing files for naming.
+
+            with open(target, "rb") as fd:
+                data = fd.read(args.block_size)
+                hash_data = hashlib.sha3_512()
+                while data:
+                    hash_data.update(data)
+                    data = fd.read(args.block_size)
+                digest = hash_data.hexdigest()
 
             _LOGGER.info(f"{target.absolute()}: {digest}")
 
